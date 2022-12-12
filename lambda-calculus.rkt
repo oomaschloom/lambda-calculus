@@ -150,3 +150,32 @@
 ;;; apply
 (test ((select-second identity) apply) => apply)
 (test (select-second apply self-apply) => self-apply)
+
+;;;; MAKE-PAIR FUNCTION
+;;; make-pair applies argument func to argument first to build a new function
+;;; which may be applied to argument second.
+(define make-pair (λ(first) (λ(second) (λ(func) ((func first) second)))))
+
+;;; ((make-pair identity) apply)
+;;; ((λfirst.λsecond.λfunc.((func first) second) identity) apply)
+;;; (λsecond.λfunc.((func identity) second) apply)
+;;; λfunc.((func identity) apply)
+;;; So we have a lambda carrying around a pair.
+
+;;; If this returned function is applied to select-first we get the first of the pair.
+;;; (λfunc.((func identity) apply) select-first)
+;;; ((select-first identity) apply)
+;;; ((λfirst.λsecond.first identity) apply)
+;;; (λsecond.identity apply)
+;;; identity
+(test ((make-pair identity apply) select-first)
+      => identity)
+
+;;; If this returned function is applied to select-second we get the second of the pair.
+;;; (λfunc.((func identity) apply) select-second)
+;;; ((select-second identity) apply)
+;;; ((λfirst.λsecond.second identity) apply)
+;;; (λsecond.second apply)
+;;; apply
+(test ((make-pair identity apply) select-second)
+      => apply)
