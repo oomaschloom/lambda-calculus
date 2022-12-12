@@ -10,7 +10,7 @@
 ;;;; IDENTITY
 ;;; The identity function returns the argument to which it is applied.
 ;;; λx.x
-(define id (λ(x) x))
+(define identity (λ(x) x))
 
 ;;; If we apply the identity function to the identity function.
 ;;; (λx.x λx.x)
@@ -19,12 +19,12 @@
 ;;; When this function application is evaluated, the bound variable x is replaced with
 ;;; the argument expression in the body expression.
 ;;; (λx.x λx.x) => λx.x
-(test (id id) => id)
+(test (identity identity) => identity)
 
 ;;;; SELF-APPLICATION
 ;;; The self application function applies its argument to its argument.
 ;;; λs.(s s)
-(define s-app (λ(s) (s s)))
+(define self-apply (λ(s) (s s)))
 
 ;;; Applying the identity function to the self-application function
 ;;; (λx.x λs.(s s))
@@ -32,7 +32,7 @@
 ;;; The argument expression is λs.(s s)
 ;;; When the application is evaluated the bound variable x is replaced by λs.(s s)
 ;;; (λx.x λs.(s s)) => λs.(s s)
-(test (id s-app) => s-app)
+(test (identity self-apply) => self-apply)
 
 ;;; Applying the self-application function to the identity function
 ;;; (λs.(s s) λx.x)
@@ -46,8 +46,8 @@
 ;;; (λx.x λx.x) => λx.x
 ;;; Fully expanded:
 ;;; (λs.(s s) λx.x) => (λx.x λx.x) => λx.x
-(test (s-app id) => (id id)) ; One step evaluation
-(test (s-app id) => id) ; Complete evaluation
+(test (self-apply identity) => (identity identity)) ; One step evaluation
+(test (self-apply identity) => identity) ; Complete evaluation
 
 ;;; Applying the self-application function to itself
 ;;;(λs.(s s) λs.(s s))
@@ -64,7 +64,7 @@
 
 ;;;; FUNCTION APPLICATION FUNCTION
 ;;; λfunc.λarg.(func arg)
-(define f-app (λ(func) (λ(arg) (func arg))))
+(define apply (λ(func) (λ(arg) (func arg))))
 ;;; The bound variable is func
 ;;; The body expression is the function λarg.(func arg)
 ;;; Which has the bound variable arg
@@ -81,8 +81,8 @@
 ;;; Now we're here (λarg.(λx.x arg) λs.(s s))
 ;;; The bound variable arg is replaced by λs.(s s)
 ;;; (λx.x λs.(s s))
-(test (f-app id s-app) => (id s-app)) ; partial evaluation
+(test (apply identity self-apply) => (identity self-apply)) ; partial evaluation
 
 ;;; The bound variable x is replaced by λs.(s s)
 ;;; λs.(s s)
-(test (f-app id s-app) => s-app) ; full evaluation
+(test (apply identity self-apply) => self-apply) ; full evaluation
