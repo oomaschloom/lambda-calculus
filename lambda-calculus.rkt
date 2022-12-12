@@ -131,5 +131,22 @@
 ;;; ((select-first identity) apply)
 ;;; ((λfirst.λsecond.first identity) apply)
 ;;; (λsecond.identity apply)
+;;; identity
 (test ((select-first identity) apply) => identity)
 (test (select-first self-apply apply) => self-apply)
+
+;;;; SELECT-SECOND FUNCTION
+(define select-second (λ(first) (λ(second) second)))
+
+;;; The bound variable for function select-first is second
+;;; The body is λsecond.second
+
+;;; When applied to an argument, select-second returns a new function, which,
+;;; when applied to another argument, returns the second argument.
+
+;;; ((select-second identity) apply)
+;;; ((λfirst.λsecond.second identity) apply)
+;;; (λsecond.second apply)
+;;; apply
+(test ((select-second identity) apply) => apply)
+(test (select-second apply self-apply) => self-apply)
