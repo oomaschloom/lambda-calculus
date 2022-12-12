@@ -86,3 +86,18 @@
 ;;; The bound variable x is replaced by λs.(s s)
 ;;; λs.(s s)
 (test (apply identity self-apply) => self-apply) ; full evaluation
+
+;;;; ANOTHER IDENTITY FUNCTION
+(define identity2 (λ(x) ((apply identity) x)))
+
+;;; Apply identity2 to the identity function
+;;; (identity2 identity)
+;;; (λx.((apply identity) x) identity)
+;;; ((apply identity) identity)
+(test (identity2 identity) => ((apply identity) identity))
+;;; ((λfunc.λarg.(func arg) identity) identity)
+;;; (λarg.(identity arg) identity)
+;;; (identity identity)
+(test (identity2 identity) => (identity identity))
+;;; identity
+(test (identity2 identity) => identity)
