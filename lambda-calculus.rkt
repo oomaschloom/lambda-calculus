@@ -10,4 +10,11 @@
 ;;; The identity function returns the argument to which it is applied
 (define identity (λ (x) x))
 
+;;; If we apply the identity function to the identity function.
+;;; (λx.x λx.x)
+;;; The function expression is λx.x
+;;; The argument expression is λx.x
+;;; When this function application is evaluated, the bound variable x is replaced with
+;;; the argument expression in the body expression.
+;;; (λx.x λx.x) => λx.x
 (test (identity identity) => identity)
