@@ -118,3 +118,18 @@
 (test (self-apply2 identity) => identity)
 
 (test (self-apply2 identity) => (self-apply identity))
+
+;;;; SELECT-FIRST FUNCTION
+(define select-first (λ(first) (λ(second) first)))
+
+;;; The bound variable for function select-first is first
+;;; The body is λsecond.first
+
+;;; When applied to an argument, select-first returns a new function, which,
+;;; when applied to another argument, returns the first argument.
+
+;;; ((select-first identity) apply)
+;;; ((λfirst.λsecond.first identity) apply)
+;;; (λsecond.identity apply)
+(test ((select-first identity) apply) => identity)
+(test (select-first self-apply apply) => self-apply)
