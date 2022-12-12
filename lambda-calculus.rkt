@@ -102,6 +102,8 @@
 ;;; identity
 (test (identity2 identity) => identity)
 
+(test (identity2 identity) => (identity identity))
+
 ;;;; ANOTHER SELF-APPLY FUNCTION
 (define self-apply2 (λ(s) ((apply s) s)))
 
@@ -115,3 +117,4 @@
 ;;; identity
 (test (self-apply2 identity) => identity)
 
+(test (self-apply2 identity) => (self-apply identity))
