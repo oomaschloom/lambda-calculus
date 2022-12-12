@@ -62,3 +62,29 @@
 
 ;;; UH OH. This will never terminate. No testing for this!
 
+;;;; FUNCTION APPLICATION FUNCTION
+;;; λfunc.λarg.(func arg)
+(define function-application (λ(func) (λ(arg) (func arg))))
+;;; The bound variable is func
+;;; The body expression is the function λarg.(func arg)
+;;; Which has the bound variable arg
+;;; and the body expression (func arg)
+;;; The function application function returns a second function that applies the
+;;; first function's argument to the second function's argument.
+
+;;; Applying the identity function to the self-application function
+;;; ((λfunc.λarg.(func arg) λx.x) λs.(s s))
+;;; The function expression is (λfunc.λarg.(func arg) λx.x)
+;;; The bound variable func is replaced by λx.x
+;;; λarg.(λx.x arg)
+;;; This returns a function which applies the identity to its argument.
+;;; Now we're here (λarg.(λx.x arg) λs.(s s))
+;;; The bound variable arg is replaced by λs.(s s)
+;;; (λx.x λs.(s s))
+(test (function-application identity self-application)
+      => (identity self-application)) ; partial evaluation
+
+;;; The bound variable x is replaced by λs.(s s)
+;;; λs.(s s)
+(test (function-application identity self-application)
+      => self-application) ; full evaluation
