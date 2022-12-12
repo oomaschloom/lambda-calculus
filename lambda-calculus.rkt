@@ -10,7 +10,7 @@
 ;;;; IDENTITY
 ;;; The identity function returns the argument to which it is applied.
 ;;; λx.x
-(define identity (λ (x) x))
+(define identity (λ(x) x))
 
 ;;; If we apply the identity function to the identity function.
 ;;; (λx.x λx.x)
@@ -24,7 +24,7 @@
 ;;;; SELF-APPLICATION
 ;;; The self application function applies its argument to its argument.
 ;;; λs.(s s)
-(define self-application (λ (s) (s s)))
+(define self-application (λ(s) (s s)))
 
 ;;; Applying the identity function to the self-application function
 ;;; (λx.x λs.(s s))
@@ -61,3 +61,4 @@
 ;;; (λs.(s s) λs.(s s)) => (λs.(s s) λs.(s s))
 
 ;;; UH OH. This will never terminate. No testing for this!
+
