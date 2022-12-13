@@ -179,3 +179,47 @@
 ;;; apply
 (test ((make-pair identity apply) select-second)
       => apply)
+
+;;;; EXERCISES
+
+;;;; 2.2 Evaluate the following λ expressions
+
+;;; a)
+;; ((λx.λy.(y x) λp.λq.p) λi.i)
+;; (λy.(y λp.λq.p) λi.i)
+;; (λi.i λp.λq.p)
+;; λp.λq.p
+
+;;; b)
+;; (((λx.λy.λz.((x y) z) λf.λa.(f a)) λi.i) λj.j)
+;; ((λy.λz.((λf.λa.(f a) y) z) λi.i) λj.j)
+;; (λz.((λf.λa.(f a) λi.i) z) λj.j)
+;; ((λf.λa.(f a) λi.i) λj.j)
+;; (λa.(λi.i a) λj.j)
+;; (λi.i λj.j)
+;; λj.j
+
+;;; c)
+;; (λh.((λa.λf.(f a) h) h) λf.(f f))
+;; ((λa.λf.(f a) λf.(f f)) λf.(f f))
+;; (λf.(f λf.(f f)) λf.(f f))
+;; (λf.(f f) λf.(f f))
+;; (λf.(f f) λf.(f f))
+;; λf.(f f) is the self-application function. This evaluation will never terminate.
+
+;;; d)
+;; ((λp.λq.(p q) (λx.x λa.λb.a)) λk.k)
+;; (λq.((λx.x λa.λb.a) q) λk.k)
+;; ((λx.x λa.λb.a) λk.k)
+;; (λa.λb.a λk.k)
+;; λb.λk.k
+
+;;; e)
+;; (((λf.λg.λx.(f (g x)) λs.(s s)) λa.λb.b) λx.λy.x)
+;; ((λg.λx.(λs.(s s) (g x)) λa.λb.b) λx.λy.x)
+;; (λx.(λs.(s s) (λa.λb.b x)) λx.λy.x)
+;; ((λa.λb.b λx.λy.x) (λa.λb.b λx.λy.x))
+;; (λb.b (λa.λb.b λx.λy.x))
+;; (λa.λb.b λx.λy.x)
+;; λb.b
+
