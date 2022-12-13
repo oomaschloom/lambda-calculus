@@ -223,3 +223,47 @@
 ;; (λa.λb.b λx.λy.x)
 ;; λb.b
 
+;;; 2.3
+
+;; a) i)
+;; (identity <argument>)
+;; <argument>
+
+;; ((apply (apply identity)) <argument>)
+;; ((apply identity) <argument>)
+;; (identity <argument>)
+;; <argument>
+
+;; I just chose select-first as an arbitrary argument
+(test (identity select-first)
+      => (apply (apply identity) select-first))
+
+;; b) i)
+;; ((apply <function>) <argument>)
+;; ((apply <function>) <argument>)
+;; (<function> <argument>)
+
+;; ii)
+;; ((λx.λy.(((make_pair x) y) identity) <function>) <argument>)
+;; (λy.(((make_pair <function>) y) identity) <argument>)
+;; (((make_pair <function>) <argument>) identity)
+;; ((identity <function>) <argument>)
+;; (<function> <argument>)
+
+;; c) i)
+;; (identity <argument)
+;; <argument>
+
+;; ii)
+;; ((self-apply (self-apply select-second)) <argument>)
+;; ((self-apply select-second) (self-apply select-second) <argument>)
+;; ((select-second select-second) (self-apply select-second) <argument>)
+;; ((λsecond.second (self-apply select-second)) <argument>)
+;; ((self-apply select-second) <argument>)
+;; ((select-second select-second) <argument>)
+;; (λsecond.second <argument>)
+;; <argument>
+
+;; Apply is an "arbitrary" argument
+(test (identity apply)
+      => ((self-apply (self-apply select-second)) apply))
