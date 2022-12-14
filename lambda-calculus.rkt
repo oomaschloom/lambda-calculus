@@ -267,3 +267,50 @@
 ;; Apply is an "arbitrary" argument
 (test (identity apply)
       => ((self-apply (self-apply select-second)) apply))
+
+;;;; TRIPLET FUNCTIONS
+;;; ex 2.4
+
+;;; MAKE-TRIPLET
+(define make-triplet
+  (λ(first) (λ(second) (λ(third) (λ(func) (((func first) second) third))))))
+
+;;; (((make-triplet identity) apply) self-apply)
+;;; (((λfirst.λsecond.λthird.λfunc.(((func first) second) third) identity) apply) self-apply)
+;;; ((λsecond.λthird.λfunc.(((func identity) second) third) apply) self-apply)
+;;; (λthird.λfunc.(((func identity) apply) third) self-apply)
+;;; λfunc.(((func identity) apply) self-apply)
+
+;;;; TRIPLET-FIRST FUNCTION
+(define triplet-first (λ(first) (λ(second) (λ(third) first))))
+
+;;; (((triplet-first identity) apply) self-apply)
+;;; (((λfirst.λsecond.λthird.first identity) apply) self-apply)
+;;; (((λsecond.λthird.identity) apply) self-apply)
+;;; ((λthird.identity) self-apply)
+;;; identity
+(test (((triplet-first identity) apply) self-apply) => identity)
+(test (triplet-first self-apply apply identity) => self-apply)
+
+;;;; TRIPLET-SECOND FUNCTION
+(define triplet-second (λ(first) (λ(second) (λ(third) second))))
+
+;;; (((triplet-second identity) apply) self-apply)
+;;; (((λfirst.λsecond.λthird.second identity) apply) self-apply)
+;;; ((λsecond.λthird.second apply) self-apply)
+;;; ((λthird.apply) self-apply)
+;;; ((λthird.apply) self-apply)
+;;; apply
+(test (((triplet-second identity) apply) self-apply) => apply)
+(test (triplet-second apply self-apply identity) => self-apply)
+
+;;;; TRIPLET-THIRD FUNCTION
+(define triplet-third (λ(first) (λ(second) (λ(third) third))))
+
+;;; (((triplet-second identity) apply) self-apply)
+;;; (((λfirst.λsecond.λthird.second identity) apply) self-apply)
+;;; ((λsecond.λthird.second apply) self-apply)
+;;; ((λthird.apply) self-apply)
+;;; apply
+(test (((triplet-third identity) apply) self-apply) => self-apply)
+(test (triplet-third apply self-apply identity) => identity)
