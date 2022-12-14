@@ -314,3 +314,106 @@
 ;;; apply
 (test (((triplet-third identity) apply) self-apply) => self-apply)
 (test (triplet-third apply self-apply identity) => identity)
+
+;;;; ex 2.5
+
+;; a)
+;; λx.λy.(λx.y λy.{x}) === x bound at {x}
+
+;; λy.(λx.y λy.{x}) === x free at {x}
+;; (λx.y λy.{x}) === x free at {x}
+;; λy.{x} === x free at {x}
+;; {x} === x free at {x}
+;; λx.λy.(λx.{y} λy.x) === y bound at {y}
+;; λy.(λx.{y} λy.x) === y bound at {y}
+;; (λx.{y} λy.x) === y free at {y}
+;; λx.{y} === y free at {y}
+;; {y} === y free at {y}
+
+;;; b)
+;; λx.({x} (λy.(λx.x y) {x})) === x bound at {x}
+;; ({x} (λy.(λx.x y) {x})) === x free at {x}
+;; {x} === x free at {x}
+;; (λy.(λx.x y) {x}) === x free at {x}
+;; {x} === x free at {x}
+;; (λy.(λx.{x} y) x) === x bound at {x}
+;; (λx.{x} y) === x bound at {x}
+;; λx.{x} === x bound at {x}
+;; {x} === x free at {x}
+
+;; λx.(x (λy.(λx.x {y}) x)) === y bound at {y}
+;; (x (λy.(λx.x {y}) x)) === y bound at {y}
+;; (λy.(λx.x {y}) x) === y bound at {y}
+;; (λy.(λx.x {y})) === y bound at {y}
+
+;; (λx.x {y}) === y free at {y}
+;; {y} === y free at {y}
+
+;; c)
+;; λa.(λb.{a} λb.(λa.{a} b)) === {a} bound at {a}
+;; (λb.a λb.(λa.{a} b)) === {a} bound at {a}
+;; λb.(λa.{a} b) === {a} bound at {a}
+;; (λa.{a} b) === {a} bound at {a}
+;; λa.{a} === {a} bound at {a}
+
+;; (λb.{a} λb.(λa.a b)) === {a} free at {a}
+;; {a} === {a} free at {a}
+
+;; λa.(λb.a λb.(λa.a {b})) === {b} bound at {b}
+;; (λb.a λb.(λa.a {b})) === {b} bound at {b}
+;; λb.(λa.a {b}) === {b} bound at {b}
+
+;; (λa.a {b}) === {b} free at {b}
+;; {b} === {b} free at {b}
+
+;; d)
+;; (λfree.bound λbound.(λfree.{free} bound)) === free bound at {free}
+;; λbound.(λfree.{free} bound) === free bound at {free}
+;; (λfree.{free} bound) === free bound at {free}
+;; λfree.{free} === free bound at {free}
+
+;; {free} === free free at {free}
+
+;; (λfree.bound λbound.(λfree.free {bound})) === bound bound at {bound}
+;; λbound.(λfree.free {bound}) === bound bound at {bound}
+
+;; (λfree.{bound} λbound.(λfree.free bound)) === bound free at {bound}
+;; (λfree.free {bound}) === bound free at {bound}
+;; {bound} === bound free at {bound}
+
+;; e)
+;; λp.λq.(λr.({p} (λq.(λp.(r q)))) (q {p})) === p bound at {p}
+
+;; λq.(λr.({p} (λq.(λp.(r q)))) (q {p})) === p free at {p}
+;; (λr.({p} (λq.(λp.(r q)))) (q {p})) === p free at {p}
+;; λr.({p} (λq.(λp.(r q)))) === p free at {p}
+;; ({p} (λq.(λp.(r q)))) === p free at {p}
+
+;; λp.λq.(λr.(p (λq.(λp.(r {q})))) ({q} p)) === q bound at {q}
+;; λq.(λr.(p (λq.(λp.(r {q})))) ({q} p)) === q bound at {q}
+;; (λr.(p (λq.(λp.(r {q})))) (q p)) === q bound at {q}
+;; λr.(p (λq.(λp.(r {q})))) === q bound at {q}
+;; (p (λq.(λp.(r {q})))) === q bound at {q}
+;; (λq.(λp.(r {q}))) === q bound at {q}
+;; λq.(λp.(r {q})) === q bound at {q}
+
+;; (λr.(p (λq.(λp.(r q)))) ({q} p)) === q free at {q}
+;; ({q} p) === q free at {q}
+;; {q} === q free at {q}
+
+;; (λp.(r {q})) === q free at {q}
+;; λp.(r {q}) === q free at {q}
+;; (r {q}) === q free at {q}
+
+;; λp.λq.(λr.(p (λq.(λp.({r} q)))) (q p)) === r bound at {r}
+;; λq.(λr.(p (λq.(λp.({r} q)))) (q p)) === r bound at {r}
+;; (λr.(p (λq.(λp.({r} q)))) (q p)) === r bound at {r}
+;; λr.(p (λq.(λp.({r} q)))) === r bound at {r}
+
+;; (p (λq.(λp.({r} q)))) === r free at {r}
+;; (λq.(λp.({r} q))) === r free at {r}
+;; λq.(λp.({r} q)) === r free at {r}
+;; (λp.({r} q)) === r free at {r}
+;; λp.({r} q) === r free at {r}
+;; ({r} q) === r free at {r}
+;; {r} === r free at {r}
