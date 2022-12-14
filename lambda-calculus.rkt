@@ -417,3 +417,11 @@
 ;; λp.({r} q) === r free at {r}
 ;; ({r} q) === r free at {r}
 ;; {r} === r free at {r}
+
+;; 2.6
+
+;; a) λx.λy.(λa.y λb.x)
+;; b) λx.(x (λy.(λa.a y) x))
+;; c) λa.(λb.a λb.(λc.c b))
+;; d) (λfree.bound λbound.(λa.a bound))
+;; e) λp.λq.(λr.(p (λs.(λt.(r s)))) (q p))
