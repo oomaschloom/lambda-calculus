@@ -456,3 +456,35 @@
 
 (test (((cond identity) apply) true) => identity)
 (test (((cond identity) apply) false) => apply)
+
+;;;; NOT FUNCTION
+;;; If the operand is true, then answer is false. If the operand is false, then the answer is true.
+;;; X ? false : true
+
+;;; (((cond false) true) x)
+;;; (((λe1.λe2.λc.((c e1) e2) false) true) x)
+;;; ((λe2.λc.((c false) e2) true) x)
+;;; (λc.((c false) true) x)
+;;; ((x false) true)
+
+(define not (λ(x) ((x false) true)))
+
+;;; (not true)
+;;; (λx.((x false) true)) true)
+;;; ((true false) true)
+;;; ((select-first false) true)
+;;; ((λfirst.λsecond.first false) true)
+;;; (λsecond.false true)
+;;; false
+
+(test (not true) => false)
+
+;;; (not false)
+;;; (λx.((x false) true) false)
+;;; ((false false) true)
+;;; ((select-second false) true)
+;;; ((λfirst.λsecond.second false) true)
+;;; (λsecond.second true)
+;;; true
+
+(test (not false) => true)
