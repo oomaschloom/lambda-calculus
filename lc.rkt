@@ -13,3 +13,7 @@
 (define triplet-first (λ(first) (λ(second) (λ(third) first))))
 (define triplet-second (λ(first) (λ(second) (λ(third) second))))
 (define triplet-third (λ(first) (λ(second) (λ(third) third))))
+
+(define cond (λ(e1) (λ(e2) (λ(c) ((c e1) e2)))))
+(define true select-first)
+(define false select-second)

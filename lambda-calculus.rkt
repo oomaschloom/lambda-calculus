@@ -425,3 +425,33 @@
 ;; c) λa.(λb.a λb.(λc.c b))
 ;; d) (λfree.bound λbound.(λa.a bound))
 ;; e) λp.λq.(λr.(p (λs.(λt.(r s)))) (q p))
+
+;;;;; CHAPTER 3
+
+;;;; CONDITIONAL FUNCTION
+;;; Using make-pair, true is represented by select-first, false is represented by select-second.
+
+;;; <condition>?<expression>:<expression>
+
+;;; If the condition is true, the first expression is selected for evaluation. If false, the second
+;;; expression is selected for evaluation.
+;;; For example: max = x>y?x:y
+
+(define cond (λ(e1) (λ(e2) (λ(c) ((c e1) e2)))))
+
+;;; cond applied to <expression1> and <expression2> returns a function.
+;; ((cond <expression1>) <expression2>)
+;; ((λe1.λe2.λc.((c e1) e2) <expression1>) <expression2>)
+;; (λe2.λc.((c <expression1>) e2) <expression2>)
+;; λc.((c <expression1>) <expression2>)
+
+;;; If the resulting function is applied to select-first, we get <expression1>
+;;; If the resulting function is applied to select-second, we get <expression2>
+
+;;;; TRUE and FALSE
+;;; To model the boolean values
+(define true select-first)
+(define false select-second)
+
+(test (((cond identity) apply) true) => identity)
+(test (((cond identity) apply) false) => apply)
