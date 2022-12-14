@@ -432,6 +432,7 @@
 ;;; Using make-pair, true is represented by select-first, false is represented by select-second.
 
 ;;; <condition>?<expression>:<expression>
+;;; X ? true : false
 
 ;;; If the condition is true, the first expression is selected for evaluation. If false, the second
 ;;; expression is selected for evaluation.
