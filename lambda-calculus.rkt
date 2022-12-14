@@ -488,3 +488,34 @@
 ;;; true
 
 (test (not false) => true)
+
+;;;; AND FUNCTION
+;;; Boolean and operator, X and Y.
+;;; If the left operand (X) is true, then the final result depends on the value of Y.
+;;; If the left operand is false, then the final value is false.
+;;; X ? Y : false
+;;; Using selectors, if the left operand is true, then select the right operand
+;;; If the left operand is false, then select false.
+
+; (define and (λ(x) (λ(y) (((cond y) false) x))))
+;;; (((cond y) false) x)
+;;; (((λe1.λe2.λc.((c e1) e2) y) false) x)
+;;; ((λe2.λc.((c y) e2) false) x)
+;;; (λc.((c y) false) x)
+;;; ((x y) false)
+
+(define and (λ(x) (λ(y) ((x y) false))))
+
+;;; ((and true) false)
+;;; ((λx.λy.((x y) false) true) false)
+;;; (λy.((true y) false) false)
+;;; ((true false) false)
+;;; ((select-first false) false)
+;;; ((λfirst.λsecond.first false) false)
+;;; (λsecond.false false)
+;;; false
+
+(test ((and true) false) => false)
+(test ((and false) true) => false)
+(test ((and false) false) => false)
+(test ((and true) true) => true)

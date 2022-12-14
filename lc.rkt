@@ -17,4 +17,6 @@
 (define cond (λ(e1) (λ(e2) (λ(c) ((c e1) e2)))))
 (define true select-first)
 (define false select-second)
+
 (define not (λ(x) ((x false) true)))
+(define and (λ(x) (λ(y) ((x y) false))))
