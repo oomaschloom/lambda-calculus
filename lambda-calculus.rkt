@@ -554,3 +554,40 @@
 (test ((or true) false) => true)
 (test ((or false) true) => true)
 (test ((or true) true) => true)
+
+;;;;; NATURAL NUMBERS
+;;; non-negative integers are represented as successors of zero
+;;; 1 = successor 0
+
+;;; 2 = successor of 1
+;;;   = successor of 0
+;;; so on
+
+;;;; ZERO
+;;; zero is represented by the identity function
+(define zero identity)
+
+;;;; SUCCESSOR FUNCTION
+;;; one is represented by (succ zero)
+;;; two is represented by (succ (succ zero))
+;;; three is represented by (succ (succ (succ zero)))
+
+(define succ (λ(n) (λ(s) ((s false) n))))
+
+;;; one
+;;; (succ zero)
+;;; (λn.λs.((s false) n) zero)
+;;; λs.((s false) zero)
+
+;;; two
+;;; (succ one)
+;;; (λn.λs.((s false) n) one)
+;;; λs.((s false) one)
+;;; λs.((s false)  λs.((s false) zero))
+
+;;; three
+;;; (succ two)
+;;; (λn.λs.((s false) n) two)
+;;; λs.((s false) two)
+;;; λs.((s false)  λs.((s false) one))
+;;; λs.((s false)  λs.((s false) λs.((s false) zero)))

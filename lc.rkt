@@ -21,3 +21,6 @@
 (define not (λ(x) ((x false) true)))
 (define and (λ(x) (λ(y) ((x y) false))))
 (define or (λ(x) (λ(y) ((x true) y))))
+
+(define zero identity)
+(define succ (λ(n) (λ(s) ((s false) n))))
