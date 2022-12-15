@@ -519,3 +519,38 @@
 (test ((and false) true) => false)
 (test ((and false) false) => false)
 (test ((and true) true) => true)
+
+;;;; OR FUNCTION
+;;; boolean or operator, X or Y.
+;;; If the first operand is true, the final value is true.
+;;; Otherwise the final value is the second operand
+;;; X ? true : Y
+
+;;; Using selectors if the first operand is true, select true, if the first operand
+;;; is false, select the second operand.
+
+;;; (define or (λ(x) (λ(y) (((cond true) y) x))))
+
+;;; Simplifying
+;;; (((cond true) y) x))
+;;; (((λe1.λe2.λc.((c e1) e2) true) y) x)
+;;; ((λe2.λc.((c true) e2) y) x)
+;;; (λc.((c true) y) x)
+;;; ((x true) y)
+
+(define or (λ(x) (λ(y) ((x true) y))))
+
+;;; false or true => true
+;;; ((or false) true)
+;;; ((λx.λy.((x true) y) false) true)
+;;; (λy.((false true) y) true)
+;;; ((false true) true)
+;;; ((select-second true) true)
+;;; ((λfirst.λsecond.second true) true)
+;;; (λsecond.second true)
+;;; true
+
+(test ((or false) false) => false)
+(test ((or true) false) => true)
+(test ((or false) true) => true)
+(test ((or true) true) => true)
